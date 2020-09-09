@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 conn = sqlite3.connect('rpg_db.sqlite3')
 
@@ -11,6 +12,8 @@ cursorObj = conn.cursor()
 #     print(x[0])
 
 # How many total Characters are there?
+print(os.listdir())
+print(os.path.abspath(os.getcwd()))
 
 query = 'SELECT COUNT(*) FROM charactercreator_character'
 cursorObj.execute(query)
@@ -58,9 +61,9 @@ print(f'\nTotal items per character (top 20):\t{results}')
 
 # How many Weapons does each character have? (Return first 20 rows)
 
-query = '''SELECT COUNT(*) 
+query = '''SELECT character_id, COUNT(item_ptr_id) 
             FROM charactercreator_character_inventory CCI
-            INNER JOIN armory_weapon AW
+            LEFT JOIN armory_weapon AW
             ON CCI.item_ID = AW.item_ptr_id
             GROUP BY character_id 
             LIMIT 20'''
@@ -81,10 +84,10 @@ print(f'\nAverage items per character:\t{cursorObj.fetchall()[0][0]}')
 
 # On average, how many Weapons does each character have?
 
-query = ''.join(['SELECT AVG("COUNT(*)") FROM (',
-            '''SELECT COUNT(*) 
+query = ''.join(['SELECT AVG(weapon_count) FROM (',
+            '''SELECT COUNT(item_ptr_id) as weapon_count
             FROM charactercreator_character_inventory CCI
-            INNER JOIN armory_weapon AW
+            LEFT JOIN armory_weapon AW
             ON CCI.item_ID = AW.item_ptr_id
             GROUP BY character_id ''',
             ')'])

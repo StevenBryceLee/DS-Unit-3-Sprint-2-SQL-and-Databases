@@ -43,16 +43,14 @@ CREATE TABLE titanic (
     Age INT,
     Sibs INT,
     Pars INT,
-    Fare DECIMAL
+    Fare FLOAT(5)
 );
 '''
 cur.execute(create_query)
-print([str(col) for col in df.columns])
+
 insert_query = ''.join(['''
 INSERT INTO titanic (''', ', '.join(df.columns), ") VALUES %s"])
 print(insert_query)
-
-# Convert all rows to tuples of strings
 rows = [tuple([str(value) for value in row]) for index, row in df.iterrows()]
 for row in rows[:5]:
     print(row)
