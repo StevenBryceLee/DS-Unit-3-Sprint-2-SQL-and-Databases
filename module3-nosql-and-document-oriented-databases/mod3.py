@@ -4,7 +4,7 @@ import pandas as pd
 import json
 
 
-client = pymongo.MongoClient("mongodb+srv://test:3IHSmG5fwnHcYpmG@cluster0.qtlki.mongodb.net/Cluster0?retryWrites=true&w=majority")
+client = pymongo.MongoClient("Your client name")
 db = client.test
 
 # Write titanic data
